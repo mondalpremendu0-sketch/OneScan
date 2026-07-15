@@ -41,4 +41,70 @@ async function dashboardController(req, res) {
   }
 }
 
-module.exports = { dashboardController };
+
+// @desc    Get logged in user's links
+// @route   GET /api/dashboard
+async function getDashboardDataController(req, res) {
+  try {
+    const profileData = await Link.findOne({ userId: req.user._id });
+
+    if (!profileData) {
+      // Return an empty array if the user hasn't added any links yet
+      return res.status(200).json({
+        success: true,
+        data: { title: "", links: [] }
+      });
+    }
+
+    res.status(200).json({
+      success: true,
+      message:"data fetched successfully",
+      data: profileData
+    });
+  } catch (error) {
+    res.status(500).json({
+      success: false,
+      message: "Server error fetching dashboard data",
+      error: error.message
+    });
+  }
+}
+
+// @desc    Delete a specific link from the user's profile
+// @route   DELETE /api/dashboard/remove/:linkId
+async function deleteLinkController(req, res) {
+  try {
+    const userId = req.user._id;
+    const { linkId } = req.params;
+
+    // Use $pull to efficiently remove the link with the matching _id from the array
+    const updatedProfile = await Link.findOneAndUpdate(
+      { userId: userId },
+      { $pull: { links: { _id: linkId } } },
+      { new: true } // Return the updated document
+    );
+
+    if (!updatedProfile) {
+      return res.status(404).json({
+        success: false,
+        message: "Profile not found"
+      });
+    }
+
+    res.status(200).json({
+      success: true,
+      message: "Link removed successfully",
+      data: updatedProfile
+    });
+  } catch (error) {
+    res.status(500).json({
+      success: false,
+      message: "Server error deleting link",
+      error: error.message
+    });
+  }
+}
+
+module.exports = { dashboardController, getDashboardDataController, deleteLinkController };
+
+
