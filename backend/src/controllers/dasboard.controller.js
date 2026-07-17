@@ -105,6 +105,62 @@ async function deleteLinkController(req, res) {
   }
 }
 
-module.exports = { dashboardController, getDashboardDataController, deleteLinkController };
+
+
+// @desc    Update user's custom URL slug
+// @route   PUT /api/dashboard/slug
+// @access  Private
+async function updateSlugController(req, res) {
+  try {
+    const userId = req.user._id;
+    const { newSlug } = req.body;
+
+    if (!newSlug) {
+      return res.status(400).json({ 
+        success: false, 
+        message: "Please provide a new link name." 
+      });
+    }
+
+    // 1. Ensure the new slug is formatted correctly (no spaces, lowercase)
+    const formattedSlug = newSlug.trim().toLowerCase().replace(/\s+/g, '-');
+
+    // 2. Check if this slug is already taken by ANOTHER user
+    const existingUser = await User.findOne({ slug: formattedSlug });
+    
+    if (existingUser && existingUser._id.toString() !== userId.toString()) {
+      return res.status(400).json({ 
+        success: false, 
+        message: "This link is already taken. Please choose another." 
+      });
+    }
+
+    // 3. Update the user's document
+    const updatedUser = await User.findByIdAndUpdate(
+      userId,
+      { slug: formattedSlug },
+      { new: true, runValidators: true }
+    ).select('-password'); 
+
+    res.status(200).json({
+      success: true,
+      message: "Link updated successfully",
+      data: updatedUser
+    });
+
+  } catch (error) {
+    res.status(500).json({
+      success: false,
+      message: "Server error updating link",
+      error: error.message
+    });
+  }
+}
+
+module.exports = { dashboardController, getDashboardDataController, deleteLinkController, 
+  updateSlugController 
+  
+};
+
 
 

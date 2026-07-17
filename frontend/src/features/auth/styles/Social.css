@@ -1,0 +1,23 @@
+.social-row {
+    display: flex;
+    justify-content: center;
+    gap: 16px;
+    margin-top: 44px;
+}
+
+.social-icon-outer-box {
+    width: 52px;
+    height: 52px;
+    border-radius: 16px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    transition: transform 0.2s ease;
+}
+.social-icon: {
+    
+}
+.social-icon:hover {
+    transform: translateY(-3px);
+}
