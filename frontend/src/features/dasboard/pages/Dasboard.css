@@ -1,0 +1,14 @@
+.app-container {
+  width: 100%;
+  max-width: 400px; /* Mobile width constraint */
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  background-color: #0d0914; /* Deep dark purple/black background */
+  color: #ffffff;
+  display: flex;
+  justify-content: center;
+  min-height: 100vh;
+}
+}

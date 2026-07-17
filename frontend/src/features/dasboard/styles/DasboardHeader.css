@@ -1,0 +1,36 @@
+.card {
+    background-color: #1a1523;
+    border: 1px solid #2d243a;
+    border-radius: 16px;
+    padding: 20px;
+}
+
+.dashboard-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.dashboard-text h2 {
+    font-size: 20px;
+    font-weight: 700;
+    margin-bottom: 4px;
+}
+
+.dashboard-text p {
+    color: #8c829c;
+    font-size: 14px;
+}
+
+.avatar {
+    background-color: #d84b25;
+    color: white;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: bold;
+    font-size: 18px;
+}
