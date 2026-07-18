@@ -1,5 +1,11 @@
 .gradient-btn {
-    background: linear-gradient(90deg, #9b51e0, #e0458b);
+    background: #833ab4;
+    background: linear-gradient(
+        90deg,
+        rgba(131, 58, 180, 1) 0%,
+        rgba(237, 57, 93, 1) 100%,
+        rgba(252, 176, 69, 1) 95%
+    );
     color: #ffffff;
     border: none;
     border-radius: 24px;
@@ -7,13 +13,27 @@
     font-size: 16px;
     font-weight: 600;
     cursor: pointer;
-    transition: opacity 0.2s ease-in-out;
+
+    /* 1. Base glowing effect using the button's colors */
+
+    /* 2. Smooth transition for all properties (hover & active states) */
+    transition: all 0.3s ease-in-out;
+
     display: inline-block;
     text-align: center;
+    -webkit-tap-highlight-color: transparent;
 }
 
+/* 3. Smooth animation & enhanced glow when hovering */
 .gradient-btn:hover {
-    opacity: 0.9;
+    box-shadow: 0 8px 25px rgba(237, 57, 93, 1); /* Brighter, wider glow */
+    transform: translateY(-2px) scale(1.02); /* Slight lift and scale up */
+}
+
+/* 4. Smooth press-down animation when clicked */
+.gradient-btn:active {
+    box-shadow: 4px 4px rgba(0, 114, 255, 0.4); /* Reduced glow */
+    transform: translateY(1px) scale(0.98); /* Slight scale down */
 }
 
 .gradient-btn.full-width {

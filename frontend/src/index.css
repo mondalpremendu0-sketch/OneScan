@@ -10,5 +10,5 @@ body {
     font-family: "Inter", sans-serif;
     background: #0a0510;
     -webkit-font-smoothing: antialiased;
-    overflow: hidden;
+    overflow: auto;
 }

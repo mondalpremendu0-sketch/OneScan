@@ -1,10 +1,13 @@
-import { Show, SignInButton, SignUpButton, useClerk } from "@clerk/react";
+import {useClerk} from "@clerk/react"
+
 import "../styles/Hero.css";
 
-export default function Hero() {
 
-    const {redirectToSignIn,redirectToSignUp} =  useClerk();
-    
+
+
+
+export default function Hero() {
+const { redirectToSignIn,redirectToSignUp } = useClerk();
     return (
         <section className="hero">
             <h1 className="hero-title">
@@ -23,17 +26,14 @@ export default function Hero() {
             <div className="hero-actions">
               
                         <button 
-                        onClick={() =>
-                        redirectToSignUp()}
+                        onClick={() => redirectToSignUp()}
                         className="btn-primary">
                             <span>Create my page — it's free</span>
                         </button>
                 
                   
                         <button 
-                        onClick={() => redirectToSignIn({
-                          afterSignInUrl: '../io'
-                        })}
+                        onClick={() => redirectToSignIn()}
                         className="btn-secondary">Sign In</button>
                     
                 

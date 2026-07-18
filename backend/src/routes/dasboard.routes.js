@@ -1,19 +1,26 @@
 const express = require('express');
 const {
-  dashboardController,
-  getDashboardDataController,
-  deleteLinkController,
-  updateSlugController
+  addLinkController,
+  updateLinkUsernameController,
+  deleteSocialLinkController,
+  getMyProfileController,
+  getMyLinkController
   
 } = require('../controllers/dasboard.controller.js');
+const requireAuth = require('../middleware/auth.middleware.js');
+
+
+
 const router = express.Router();
 
 
-router
-.post("/dasboard",dashboardController)
-.get("/dasboard",getDashboardDataController);
-router.delete("/dasboard/remove/:id",deleteLinkController);
-router.put("/dasboard/update/slug",updateSlugController);
+
+router.get("/",requireAuth,getMyProfileController);
+router.put("/",requireAuth,updateLinkUsernameController);
+router.post("/addlink",requireAuth,addLinkController);
+router.delete("/remove/:linkId",requireAuth,deleteSocialLinkController);
+router.get("/link",requireAuth,getMyLinkController)
+
 
 
 module.exports = router;

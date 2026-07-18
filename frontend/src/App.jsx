@@ -1,17 +1,17 @@
 import React from 'react'
-import LandingPage from './features/auth/pages/Landing.jsx'
+import  {RouterProvider} from "react-router"
+
+import {router} from './app.routes.jsx'
 import './index.css'
 
 
 
 
 
-const App = () => {
+export default function App() {
+  
   return (
-    <>
-      <LandingPage />
-    </>
+  <RouterProvider router={router}/>
   )
 }
 
-export default App

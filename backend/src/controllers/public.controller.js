@@ -1,47 +1,51 @@
-const User = require('../model/user.model.js');
-const Link = require('../model/socialLink.model.js');
+const Profile = require("../model/profile.model.js");
 
-// @desc    Get user profile and links by slug
-// @route   GET /api/public/:slug
-// @access  Public
-async function getPublicProfile(req, res) {
-  try {
-    const { slug } = req.params;
+// @desc     Get a user's public profile by username (what the QR code resolves to)
+// @route   GET /api/public/:username
+// @access  Public (no auth)
+async function getPublicProfileController(req, res) {
+    try {
+        const { username } = req.params;
 
-    // 1. Find the user by their unique slug (excluding the password)
-    const user = await User.findOne({ slug }).select('-password');
-    
-    if (!user) {
-      return res.status(404).json({ 
-        success: false, 
-        message: "Profile not found" 
-      });
+        if (!username) {
+            return res.status(400).json({
+                success: false,
+                message: "Username is required"
+            });
+        }
+
+        const profile = await Profile.findOne({
+            username: username.toLowerCase()
+        });
+
+        if (!profile) {
+            return res.status(404).json({
+                success: false,
+                message: "This page doesn't exist"
+            });
+        }
+
+        // Only send back safe, public fields — never clerkUserId or hidden links
+        const visibleLinks = profile.links.filter(link => link.isVisible);
+
+        res.status(200).json({
+            success: true,
+            data: {
+                username: profile.username,
+                displayName: profile.displayName,
+                bio: profile.bio,
+                avatarUrl: profile.avatarUrl,
+                links: visibleLinks
+            }
+        });
+    } catch (error) {
+        res.status(500).json({
+            success: false,
+            message: "Failed to load profile",
+            error: error.message
+        });
     }
-
-    // 2. Find the links document associated with this user's ID
-    const profileData = await Link.findOne({ userId: user._id });
-
-    // 3. Return the combined data
-    res.status(200).json({
-      success: true,
-      data: {
-        user: {
-          username: user.slug,
-          bio: user.bio,
-          avatarUrl: user.avatarUrl
-        },
-        profileTitle: profileData ? profileData.title : "",
-        links: profileData ? profileData.links : []
-      }
-    });
-
-  } catch (error) {
-    res.status(500).json({
-      success: false,
-      message: "Server error fetching public profile",
-      error: error.message
-    });
-  }
 }
 
-module.exports = { getPublicProfile };
+module.exports =  getPublicProfileController 
+  

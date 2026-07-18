@@ -1,166 +1,263 @@
-const Link = require('../model/socialLink.model.js');
+const Profile = require("../model/profile.model.js");
+const sanitizeSlug = require("../utils/slugValidation.utils.js");
 
-async function dashboardController(req, res) {
-  try {
-    const { title, platform, url } = req.body;
-    
-    
-    if (!title || !platform || !url) {
-      return res.status(400).json({ 
-        success: false,
-        message: "Required data not provided (title, platform, url)"
-      });
+// @desc     user's DASBOARD
+// @route   GET /api/profile/me
+// @access  Private
+
+async function getMyProfileController(req, res) {
+    try {
+        const { userId } = req.auth;
+
+        let profile = await Profile.findOne({ clerkUserId: userId });
+
+        if (!profile) {
+            // first time this user has ever opened the dashboard —
+            // create a blank profile so the frontend has something to render
+            profile = await Profile.create({
+                clerkUserId: userId,
+                username: `user-${userId.slice(-8)}`,
+                links: []
+            });
+        }
+
+        res.status(200).json({
+            success: true,
+            data: profile
+        });
+    } catch (error) {
+        res.status(500).json({
+            success: false,
+            message: "Failed to load profile",
+            error: error.message
+        });
     }
-    
-    const updatedProfile = await Link.findOneAndUpdate(
-      { userId: userId},
-      { 
-        $set: { title: title }, // Update the main page title
-        $push: { links: { platform, url } } // Append the new link to the array
-      },
-      { 
-        new: true,    // Return the newly updated document instead of the old one
-        upsert: true, // If the user doesn't have a Link document yet, create one
-        runValidators: true // Ensure the new data respects our enum and minLength rules
-      }
-    );
-    
-    res.status(201).json({
-      success: true,
-      message: "Link added successfully",
-      data: updatedProfile
-    });
-
-  } catch (error) {
-    // Catch any database or server errors
-    res.status(500).json({ 
-      success: false,
-      message: "Failed to add link",
-      error: error.message
-    });
-  }
 }
-
-
-// @desc    Get logged in user's links
-// @route   GET /api/dashboard
-async function getDashboardDataController(req, res) {
-  try {
-    const profileData = await Link.findOne({ userId: req.user._id });
-
-    if (!profileData) {
-      // Return an empty array if the user hasn't added any links yet
-      return res.status(200).json({
-        success: true,
-        data: { title: "", links: [] }
-      });
-    }
-
-    res.status(200).json({
-      success: true,
-      message:"data fetched successfully",
-      data: profileData
-    });
-  } catch (error) {
-    res.status(500).json({
-      success: false,
-      message: "Server error fetching dashboard data",
-      error: error.message
-    });
-  }
-}
-
-// @desc    Delete a specific link from the user's profile
-// @route   DELETE /api/dashboard/remove/:linkId
-async function deleteLinkController(req, res) {
-  try {
-    const userId = req.user._id;
-    const { linkId } = req.params;
-
-    // Use $pull to efficiently remove the link with the matching _id from the array
-    const updatedProfile = await Link.findOneAndUpdate(
-      { userId: userId },
-      { $pull: { links: { _id: linkId } } },
-      { new: true } // Return the updated document
-    );
-
-    if (!updatedProfile) {
-      return res.status(404).json({
-        success: false,
-        message: "Profile not found"
-      });
-    }
-
-    res.status(200).json({
-      success: true,
-      message: "Link removed successfully",
-      data: updatedProfile
-    });
-  } catch (error) {
-    res.status(500).json({
-      success: false,
-      message: "Server error deleting link",
-      error: error.message
-    });
-  }
-}
-
-
 
 // @desc    Update user's custom URL slug
-// @route   PUT /api/dashboard/slug
+// @route   PUT /api/profile/me
 // @access  Private
-async function updateSlugController(req, res) {
-  try {
-    const userId = req.user._id;
-    const { newSlug } = req.body;
+async function updateLinkUsernameController(req, res) {
+    try {
+        const { userId } = req.auth;
+        console.log(userId);
+        let { slug } = req.body;
+        if (!slug) {
+            return res.status(400).json({
+                message: "please provide a slug!"
+            });
+        }
+        slug = sanitizeSlug(slug);
 
-    if (!newSlug) {
-      return res.status(400).json({ 
-        success: false, 
-        message: "Please provide a new link name." 
-      });
+        const alreadyTaken = await Profile.findOne({
+            username: slug,
+            clerkUserId: { $ne: userId }
+        });
+        if (alreadyTaken) {
+            return res.status(409).json({
+                message: "its already taken"
+            });
+        }
+
+        const updatedProfile = await Profile.findOneAndUpdate(
+            { clerkUserId: userId },
+            { username: slug },
+            { new: true, upsert: true }
+        );
+
+        if (!updatedProfile) {
+            return res.status(400).json({
+                message: "Error Updating Slug"
+            });
+        }
+
+        res.status(200).json({
+            success: true,
+            message: "Updated Successfully!",
+            data: updatedProfile
+        });
+    } catch (e) {
+        console.log(e.message);
+        res.status(500).json({
+            message: "Server is busy",
+            error: e.message
+        });
     }
-
-    // 1. Ensure the new slug is formatted correctly (no spaces, lowercase)
-    const formattedSlug = newSlug.trim().toLowerCase().replace(/\s+/g, '-');
-
-    // 2. Check if this slug is already taken by ANOTHER user
-    const existingUser = await User.findOne({ slug: formattedSlug });
-    
-    if (existingUser && existingUser._id.toString() !== userId.toString()) {
-      return res.status(400).json({ 
-        success: false, 
-        message: "This link is already taken. Please choose another." 
-      });
-    }
-
-    // 3. Update the user's document
-    const updatedUser = await User.findByIdAndUpdate(
-      userId,
-      { slug: formattedSlug },
-      { new: true, runValidators: true }
-    ).select('-password'); 
-
-    res.status(200).json({
-      success: true,
-      message: "Link updated successfully",
-      data: updatedUser
-    });
-
-  } catch (error) {
-    res.status(500).json({
-      success: false,
-      message: "Server error updating link",
-      error: error.message
-    });
-  }
 }
 
-module.exports = { dashboardController, getDashboardDataController, deleteLinkController, 
-  updateSlugController 
-  
+// @desc    Add user's sosial URL
+// @route   POST /api/profile/addLink
+// @access  Private
+async function addLinkController(req, res) {
+    const ALLOWED_PLATFORMS = [
+        "instagram",
+        "github",
+        "linkedin",
+        "twitter",
+        "snapchat",
+        "custom"
+    ];
+    try {
+        const { userId } = req.auth;
+        let { title, url, platform } = req.body;
+
+        if (!title || !platform || !url) {
+            return res.status(400).json({
+                success: false,
+                message: "Required data not provided (title, platform, url)"
+            });
+        }
+
+        title = title.trim();
+        url = url.trim();
+
+        if (!ALLOWED_PLATFORMS.includes(platform)) {
+            return res
+                .status(400)
+                .json({ success: false, message: "Invalid platform" });
+        }
+
+        try {
+            new URL(url);
+        } catch {
+            return res.status(400).json({
+                success: false,
+                message: "Please provide a valid URL"
+            });
+        }
+
+        const existingProfile = await Profile.findOne({ clerkUserId: userId });
+
+        if (!existingProfile) {
+            return res
+                .status(404)
+                .json({ success: false, message: "Profile not found" });
+        }
+
+        const alreadyHasPlatform = existingProfile.links.some(
+            link => link.platform === platform
+        );
+
+        if (alreadyHasPlatform) {
+            return res.status(409).json({
+                success: false,
+                message: `You already have a ${platform} link. Remove it first or edit it instead.`
+            });
+        }
+
+        const updatedProfile = await Profile.findOneAndUpdate(
+            { clerkUserId: userId },
+            { $push: { links: { platform, url, handle: title } } },
+            { new: true }
+        );
+
+        res.status(201).json({
+            success: true,
+            message: "Link added successfully",
+            data: updatedProfile
+        });
+    } catch (error) {
+        res.status(500).json({
+            success: false,
+            message: "Failed to add link",
+            error: error.message
+        });
+    }
+}
+
+// @desc    Delete user's social URL
+// @route   DELETE /api/profile/remove/:det
+// @access  Private
+async function deleteSocialLinkController(req, res) {
+    try {
+        const { userId } = req.auth;
+        const { linkId } = req.params;
+
+        if (!linkId) {
+            return res.status(400).json({
+                success: false,
+                message: "Required data not provided (linkId)"
+            });
+        }
+        // Confirm the link actually exists before pulling — catches
+        // "already deleted" or "not yours" cases that $pull silently ignores
+        const profileWithLink = await Profile.findOne({
+            clerkUserId: userId,
+            "links._id": linkId
+        });
+
+        if (!profileWithLink) {
+            return res.status(404).json({
+                success: false,
+                message: "Link not found"
+            });
+        }
+
+        const updatedProfile = await Profile.findOneAndUpdate(
+            { clerkUserId: userId },
+            { $pull: { links: { _id: linkId } } },
+            { new: true }
+        );
+
+        if (!updatedProfile) {
+            return res
+                .status(404)
+                .json({ success: false, message: "Link not deleteed!" });
+        }
+
+        res.status(201).json({
+            success: true,
+            message: "Link Deleted successfully",
+            data: updatedProfile
+        });
+    } catch (error) {
+        res.status(500).json({
+            success: false,
+            message: "Failed to Delete link",
+            error: error.message
+        });
+    }
+}
+
+// @desc     Get the logged-in user's public shareable link (for QR encoding)
+// @route   GET /api/profile/me/link
+// @access  Private (requires auth)
+async function getMyLinkController(req, res) {
+    try {
+        const { userId } = req.auth;
+
+        const profile = await Profile.findOne({ clerkUserId: userId });
+
+        if (!profile) {
+            return res.status(404).json({
+                success: false,
+                message: "Profile not found"
+            });
+        }
+
+        const profileUrl = `${process.env.CLIENT_URL}/u/${profile.username}`;
+
+        res.status(200).json({
+            success: true,
+            data: {
+                username: profile.username,
+                qrUrl: profileUrl
+            },
+            message: "Fetched successfully"
+        });
+    } catch (error) {
+        res.status(500).json({
+            success: false,
+            message: "Failed to generate link",
+            error: error.message
+        });
+    }
+}
+
+module.exports = {
+    addLinkController,
+    updateLinkUsernameController,
+    deleteSocialLinkController,
+    getMyProfileController,
+    getMyLinkController
 };
-
-
-
