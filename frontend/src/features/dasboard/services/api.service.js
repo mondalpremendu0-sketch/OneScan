@@ -15,7 +15,7 @@ export const  attachAuthToken = (getToken) => {
 
 export const getMyProfile = async () => {
     try {
-        const response = await api.get("/profile/me/");
+        const response = await api.get("/v1/api/profile/me/");
         return response.data;
         
     } catch (e) {
@@ -24,7 +24,7 @@ export const getMyProfile = async () => {
 };
 export const updateLink = async (slug) => {
     try {
-        const response = await api.put("profile/me/", { slug });
+        const response = await api.put("/v1/api/profile/me/", { slug });
         return response.data;
         
     } catch (e) {
@@ -33,7 +33,7 @@ export const updateLink = async (slug) => {
 };
 export const addLink = async (title, url, platform) => {
     try {
-        const response = await api.post("/profile/me/addlink", {
+        const response = await api.post("/v1/api/profile/me/addlink", {
             title,
             url,
             platform
@@ -46,7 +46,7 @@ export const addLink = async (title, url, platform) => {
 };
 export const deleteLink = async (linkId) => {
     try {
-        const response = await api.delete(`profile/me/remove/${linkId}`);
+        const response = await api.delete(`/v1/api/profile/me/remove/${linkId}`);
         return response.data;
     } catch (e) {
         throw new Error(e.message)
@@ -55,7 +55,7 @@ export const deleteLink = async (linkId) => {
 export const generateLink = async () => {
 
     try {
-        const response = await api.get("profile/me/link");
+        const response = await api.get("/v1/api/profile/me/link");
         return response.data;
     } catch (e) {
         throw new Error(e.message)
