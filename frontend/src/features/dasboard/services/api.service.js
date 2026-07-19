@@ -15,7 +15,7 @@ export const  attachAuthToken = (getToken) => {
 
 export const getMyProfile = async () => {
     try {
-        const response = await api.get("/v1/api/profile/me/");
+        const response = await api.get("/v1/api/profile/me");
         return response.data;
         
     } catch (e) {
@@ -24,7 +24,7 @@ export const getMyProfile = async () => {
 };
 export const updateLink = async (slug) => {
     try {
-        const response = await api.put("/v1/api/profile/me/", { slug });
+        const response = await api.put("/v1/api/profile/me", { slug });
         return response.data;
         
     } catch (e) {
