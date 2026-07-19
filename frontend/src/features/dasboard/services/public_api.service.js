@@ -1,7 +1,7 @@
 import axios from "axios";
 
 const publicApi = axios.create({
-  baseURL: "http://localhost:3000",
+  baseURL: "https://one-scan-5odi.vercel.app",
   withCredentials: true,
 });
 
