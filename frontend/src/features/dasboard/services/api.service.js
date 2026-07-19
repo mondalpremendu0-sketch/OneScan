@@ -1,7 +1,7 @@
 import axios from "axios";
 
 const api = axios.create({
-    baseURL: "https://one-scan-5odi.vercel.app",   // ← changed
+    baseURL: import.meta.env.VITE_API_URL,   // ← changed
     withCredentials: true,
 });
 
