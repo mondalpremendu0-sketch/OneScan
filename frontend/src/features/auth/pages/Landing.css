@@ -51,6 +51,7 @@
     .content > .badge {
         grid-area: badge;
         justify-self: start;
+        margin-left: 100px;
     }
 
     .content > .hero {
@@ -67,6 +68,7 @@
     .content > .social-row {
         grid-area: social;
         justify-content: flex-start;
+        margin-left: 100px;
     }
 
     .content > .hero-mockup-scene {
