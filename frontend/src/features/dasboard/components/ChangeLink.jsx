@@ -38,7 +38,7 @@ const ChangeLink = () => {
                 />
             </div>
             {errors.username && <p className = "field-error">{errors.username}</p>}
-            <Button onClick={handleOnClick}>{loading ? "Updating...":"Update"}</Button>
+            <Button onClick={handleOnClick}>Update</Button>
         </div>
     );
 };

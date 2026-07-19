@@ -1,6 +1,6 @@
 import { useContext, useEffect } from "react";
 import { useAuth } from "@clerk/react";
-import { ProfileContext } from "../profile.context.jsx";
+import { ProfileContext } from "../contexts/profile.context.jsx";
 import {
     getMyProfile,
     updateLink,

@@ -3,9 +3,6 @@ import {useClerk} from "@clerk/react"
 import "../styles/Hero.css";
 
 
-
-
-
 export default function Hero() {
 const { redirectToSignIn,redirectToSignUp } = useClerk();
     return (

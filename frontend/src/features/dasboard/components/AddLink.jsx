@@ -5,9 +5,11 @@ import { useProfile } from "../hooks/useProfileContext.js";
 
 const AddLink = () => {
     const { addSocial, profile,errors, loading } = useProfile();
+    
     const [title, settitle] = useState("");
     const [url, seturl] = useState("");
     const [platform, setplatform] = useState();
+    
     async function handelAddLink(e) {
         e.preventDefault();
         if (!title || !url) return;

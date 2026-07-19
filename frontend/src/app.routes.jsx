@@ -3,8 +3,8 @@ import { createBrowserRouter } from "react-router";
 import LandingPage from "./features/auth/pages/Landing.jsx";
 import DasboardPage from "./features/dasboard/pages/DasboardPage.jsx";
 import PublicPage from "./features/dasboard/pages/PublicPage.jsx";
-import Protected from "./Protected.jsx";
-import { PublicProfileProvider } from "./features/dasboard/publicProfile.context.jsx";
+import Protected from "./components/Protected.jsx";
+import { PublicProfileProvider } from "./features/dasboard/contexts/publicProfile.context.jsx";
 
 const router = createBrowserRouter([
     {

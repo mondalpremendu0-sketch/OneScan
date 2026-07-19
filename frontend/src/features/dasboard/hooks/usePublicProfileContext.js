@@ -1,5 +1,5 @@
 import { useContext, useEffect } from "react";
-import { PublicProfileContext } from '../publicProfile.context.jsx'
+import { PublicProfileContext } from '../contexts/publicProfile.context.jsx'
 import { getPublicProfile } from "../services/public_api.service.js";
 
 export function usePublicProfile(username) {
