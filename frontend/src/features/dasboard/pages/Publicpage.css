@@ -1,0 +1,111 @@
+.public-profile-page {
+    min-height: 100vh;
+    width: 100%;
+    background: #0b0715;
+    display: flex;
+    align-items: flex-start;
+    justify-content: center;
+    padding: 60px 20px;
+    box-sizing: border-box;
+}
+
+.public-status-text {
+    color: #8f8a9c;
+    font-family: "Inter", sans-serif;
+    font-size: 16px;
+    margin-top: 100px;
+}
+
+.public-profile-card {
+    width: 100%;
+    max-width: 420px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+}
+
+.public-avatar {
+    width: 96px;
+    height: 96px;
+    border-radius: 50%;
+    object-fit: cover;
+    margin-bottom: 20px;
+}
+
+.public-avatar-placeholder {
+    background: linear-gradient(135deg, #9733ee 0%, #da3f8e 100%);
+}
+
+.public-username {
+    font-family: "Inter", sans-serif;
+    font-weight: 800;
+    font-size: 26px;
+    color: #ffffff;
+    margin-bottom: 6px;
+}
+
+.public-bio {
+    font-family: "Inter", sans-serif;
+    color: #8f8a9c;
+    font-size: 15px;
+    margin-bottom: 32px;
+}
+
+.public-links {
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+    width: 100%;
+    box-sizing: border-box;
+}
+
+.public-link-btn {
+    margin-top: 25px;
+    margin-bottom: 25px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    justify-content: center;
+    width: 100%;
+    box-sizing: border-box;
+    padding: 18px 24px;
+    border-radius: 16px;
+    background: #1c1829;
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    color: #e4e0eb;
+    font-family: "Inter", sans-serif;
+    font-weight: 700;
+    font-size: 15px;
+    text-decoration: none;
+    transition:
+        transform 0.15s ease,
+        background 0.15s ease;
+}
+
+.public-link-btn:hover {
+    transform: translateY(-2px);
+    background: #241f33;
+}
+
+.public-link-icon {
+    font-size: 18px;
+}
+.footer-text {
+    font-size: 15px;
+    
+    
+}
+
+.gradient-text {
+    background: linear-gradient(90deg, #8b5cf6 0%, #ec4899 50%, #38bdf8 100%);
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+.empty-link{
+  font-size: 14px;
+  margin: 50px;
+  color: #545353;
+}

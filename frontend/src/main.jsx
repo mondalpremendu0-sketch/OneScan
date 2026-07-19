@@ -1,6 +1,5 @@
 import { createRoot } from "react-dom/client";
 import { ClerkProvider } from "@clerk/react";
-import { BrowserRouter } from "react-router";
 import App from "./App.jsx";
 
 

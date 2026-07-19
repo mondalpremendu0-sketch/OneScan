@@ -1,17 +1,96 @@
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
 body {
-  
   color: #ffffff;
+  min-height: 100vh;
+  margin: 0;
   display: flex;
   justify-content: center;
-  min-height: 100vh;
 }
 
 .app-container {
+  display: flex;
+  flex-direction: column;
   width: 100%;
   max-width: 400px; /* Mobile width constraint */
   padding: 20px;
-  display: flex;
-  flex-direction: column;
   gap: 16px;
-  
+  margin: 0 auto;
+}
+
+/* Tablet: a bit more breathing room, cards stay comfortably readable
+   instead of stretching edge-to-edge on a wider screen */
+@media (min-width: 768px) {
+  .app-container {
+    max-width: 480px;
+    padding: 32px 24px;
+    gap: 20px;
+  }
+}
+
+/* Desktop: 2-column layout using CSS multi-column instead of Grid.
+   Grid's grid-template-areas forces both columns to share row heights —
+   meaning a taller card in column 2 pushes empty space under a shorter
+   card in column 1. column-count avoids that: each column stacks its
+   own content independently, no shared rows, no forced gaps.
+
+   column-fill: auto (not the default "balance") + break-after on the
+   3rd child guarantees exactly:
+     Column 1: Header (spans both) -> Change your link -> Share/QR
+     Column 2: Add a link -> Your links
+   regardless of how tall any individual card is. */
+@media (min-width: 800px) {
+  .app-container {
+    display: block;
+    max-width: 960px;
+    width: 100%;
+    padding: 40px 32px;
+    column-count: 2;
+    column-gap: 32px;
+    column-fill: auto;
+  }
+
+  .app-container > * {
+    break-inside: avoid;
+    margin-bottom: 24px;
+  }
+
+  /* Header spans both columns, sits above everything */
+  .app-container > *:nth-child(1) {
+    column-span: all;
+  }
+
+  /* Force the column break here — column 1 ends after "Share/QR",
+     column 2 starts at "Add a link" */
+  .app-container > *:nth-child(3) {
+    break-after: column;
+    margin-bottom: 0;
+  }
+  .app-container > *:nth-child(4) {
+    margin-top: 15px;
+  }
+  .app-container > *:nth-child(5) {
+    column-span: all;
+    margin-top: 14px;
+  }
+}
+
+.field-error {
+  color: #f87171;
+  font-size: 13px;
+  font-weight: 500;
+  margin-top: 8px;
+  margin-bottom: 0;
+}
+
+.input-error {
+  border-color: rgba(248, 113, 113, 0.6) !important;
+}
+
+.input-error:focus {
+  outline-color: #f87171;
 }

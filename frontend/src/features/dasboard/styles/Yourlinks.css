@@ -1,0 +1,89 @@
+.your-links-card {
+  background: #150c22;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 20px;
+  padding: 24px;
+  width: 100%;
+  box-sizing: border-box;   /* padding won't add to total width */
+}
+
+.your-links-card h3 {
+    font-family: "Inter", sans-serif;
+    font-weight: 700;
+    font-size: 18px;
+    color: #ffffff;
+    margin-bottom: 16px;
+}
+
+.empty-links-text {
+    color: #7a7488;
+    font-size: 15px;
+}
+
+.links-list {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.link-item {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    padding: 14px 16px;
+    background: rgba(255, 255, 255, 0.03);
+    border: 1px solid rgba(255, 255, 255, 0.06);
+    border-radius: 14px;
+    width: 100%;
+    box-sizing: border-box;
+}
+
+.link-item-info {
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+    min-width: 0; /* ← the actual fix */
+    flex: 1;
+}
+
+.link-item-title {
+    color: #ffffff;
+    font-weight: 600;
+    font-size: 15px;
+}
+
+.link-item-url {
+    color: #8f8a9c;
+    font-size: 13px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    min-width: 0; /* belt-and-suspenders */
+}
+
+.remove-link-btn {
+    background: transparent;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    color: #a49dae;
+    width: 30px;
+    height: 30px;
+    border-radius: 999px;
+    cursor: pointer;
+    flex-shrink: 0;
+    transition:
+        background 0.2s ease,
+        color 0.2s ease;
+}
+
+.remove-link-btn:hover {
+    background: rgba(239, 68, 68, 0.15);
+    color: #f87171;
+    border-color: rgba(239, 68, 68, 0.3);
+}
+
+.remove-link-btn:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+}

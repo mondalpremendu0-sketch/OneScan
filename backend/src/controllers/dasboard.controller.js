@@ -1,3 +1,5 @@
+const { clerkClient } = require("@clerk/clerk-sdk-node");
+
 const Profile = require("../model/profile.model.js");
 const sanitizeSlug = require("../utils/slugValidation.utils.js");
 
@@ -11,14 +13,21 @@ async function getMyProfileController(req, res) {
 
         let profile = await Profile.findOne({ clerkUserId: userId });
 
+        const clerkUser = await clerkClient.users.getUser(userId);
+        
+        const clerkImageUrl = clerkUser.imageUrl;
+
         if (!profile) {
-            // first time this user has ever opened the dashboard —
-            // create a blank profile so the frontend has something to render
             profile = await Profile.create({
                 clerkUserId: userId,
                 username: `user-${userId.slice(-8)}`,
+                avatarUrl: clerkImageUrl,
                 links: []
             });
+        } else if (profile.avatarUrl !== clerkImageUrl) {
+            // Keep it fresh if the user updated their photo since last visit
+            profile.avatarUrl = clerkImageUrl;
+            await profile.save();
         }
 
         res.status(200).json({
@@ -42,6 +51,7 @@ async function updateLinkUsernameController(req, res) {
         const { userId } = req.auth;
         console.log(userId);
         let { slug } = req.body;
+
         if (!slug) {
             return res.status(400).json({
                 message: "please provide a slug!"
@@ -95,6 +105,8 @@ async function addLinkController(req, res) {
         "linkedin",
         "twitter",
         "snapchat",
+        "facebook",
+        "youtube",
         "custom"
     ];
     try {
@@ -229,7 +241,7 @@ async function getMyLinkController(req, res) {
         const profile = await Profile.findOne({ clerkUserId: userId });
 
         if (!profile) {
-            return res.status(404).json({
+            return res.status(409).json({
                 success: false,
                 message: "Profile not found"
             });

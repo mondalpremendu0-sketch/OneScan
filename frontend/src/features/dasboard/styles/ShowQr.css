@@ -1,0 +1,174 @@
+.generate-btn {
+    width: 100%;
+    padding: 16px 32px;
+    border: none;
+    border-radius: 999px;
+    background: linear-gradient(90deg, #8842e3 0%, #de4ba3 100%);
+    color: #ffffff;
+    font-weight: 700;
+    font-size: 16px;
+    cursor: pointer;
+    transition:
+        transform 0.2s ease,
+        opacity 0.2s ease;
+}
+
+.generate-btn:hover {
+    transform: translateY(-2px);
+}
+
+.generate-btn:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+    transform: none;
+}
+
+/* Dimmed backdrop behind the popup */
+.qr-modal-overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(5, 2, 10, 0.75);
+    backdrop-filter: blur(6px);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 1000;
+    padding: 20px;
+    animation: fade-in 0.2s ease;
+}
+
+@keyframes fade-in {
+    from {
+        opacity: 0;
+    }
+    to {
+        opacity: 1;
+    }
+}
+
+/* The actual popup card, centered on screen */
+.qr-modal-card {
+    position: relative;
+    background: #17141f;
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    border-radius: 24px;
+    padding: 36px 28px;
+    width: 100%;
+    max-width: 380px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    animation: pop-in 0.25s ease;
+    max-height: 90vh;
+    overflow-y: auto;
+}
+
+@keyframes pop-in {
+    from {
+        transform: scale(0.92);
+        opacity: 0;
+    }
+    to {
+        transform: scale(1);
+        opacity: 1;
+    }
+}
+
+.qr-modal-close {
+    position: absolute;
+    top: 16px;
+    right: 16px;
+    background: rgba(255, 255, 255, 0.06);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    color: #cfc9da;
+    width: 32px;
+    height: 32px;
+    border-radius: 999px;
+    cursor: pointer;
+}
+
+.qr-modal-close:hover {
+    background: rgba(255, 255, 255, 0.12);
+}
+
+.qr-modal-title {
+    color: #ffffff;
+    font-weight: 800;
+    font-size: 26px;
+    margin-bottom: 8px;
+    margin-top: 8px;
+}
+
+.qr-modal-subtitle {
+    color: #8f8a9c;
+    font-size: 15px;
+    margin-bottom: 24px;
+}
+
+.qr-code-wrapper {
+    background: #ffffff;
+    padding: 6px;
+    border-radius: 18px;
+    margin-bottom: 22px;
+}
+
+.qr-live-label {
+    color: #8f8a9c;
+    font-size: 14px;
+    font-weight: 600;
+    margin-bottom: 6px;
+}
+
+.qr-live-link {
+    color: #c5b6f9;
+    font-weight: 700;
+    font-size: 17px;
+    text-decoration: none;
+    margin-bottom: 24px;
+    word-break: break-all;
+}
+
+.qr-live-link:hover {
+    text-decoration: underline;
+}
+
+.qr-modal-actions {
+    display: flex;
+    gap: 10px;
+    width: 100%;
+}
+
+.qr-copy-btn {
+    flex: 1;
+    padding: 13px;
+    border-radius: 999px;
+    font-weight: 700;
+    font-size: 14px;
+    cursor: pointer;
+    border: 1px solid rgba(255, 255, 255, 0.14);
+    background: transparent;
+    color: #ffffff;
+    transition: background 0.2s ease;
+}
+
+.qr-copy-btn:hover {
+    background: rgba(255, 255, 255, 0.06);
+}
+
+.qr-download-btn {
+    flex: 1;
+    padding: 13px;
+    border-radius: 999px;
+    font-weight: 700;
+    font-size: 14px;
+    cursor: pointer;
+    border: none;
+    background: linear-gradient(90deg, #8842e3 0%, #de4ba3 100%);
+    color: #ffffff;
+    transition: transform 0.2s ease;
+}
+
+.qr-download-btn:hover {
+    transform: translateY(-2px);
+}

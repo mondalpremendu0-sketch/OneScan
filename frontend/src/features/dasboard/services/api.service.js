@@ -1,0 +1,63 @@
+import axios from "axios";
+
+const api = axios.create({
+    baseURL: import.meta.env.VITE_API_URL,   // ← changed
+    withCredentials: true,
+});
+
+export const  attachAuthToken = (getToken) => {
+    api.interceptors.request.use(async config => {
+        const token = await getToken();
+        if (token) config.headers.Authorization = `Bearer ${token}`;
+        return config;
+    });
+}
+
+export const getMyProfile = async () => {
+    try {
+        const response = await api.get("/profile/me/");
+        return response.data;
+        
+    } catch (e) {
+        throw new Error(e.message)
+    }
+};
+export const updateLink = async (slug) => {
+    try {
+        const response = await api.put("profile/me/", { slug });
+        return response.data;
+        
+    } catch (e) {
+        throw new Error(e.message)
+    }
+};
+export const addLink = async (title, url, platform) => {
+    try {
+        const response = await api.post("/profile/me/addlink", {
+            title,
+            url,
+            platform
+        });
+        
+        return response.data;
+    } catch (e) {
+        throw new Error(e.message)
+    }
+};
+export const deleteLink = async (linkId) => {
+    try {
+        const response = await api.delete(`profile/me/remove/${linkId}`);
+        return response.data;
+    } catch (e) {
+        throw new Error(e.message)
+    }
+};
+export const generateLink = async () => {
+
+    try {
+        const response = await api.get("profile/me/link");
+        return response.data;
+    } catch (e) {
+        throw new Error(e.message)
+    }
+};

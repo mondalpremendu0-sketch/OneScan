@@ -1,17 +1,15 @@
-import React from 'react'
-import  {RouterProvider} from "react-router"
+import React from "react";
+import { RouterProvider } from "react-router";
 
-import {router} from './app.routes.jsx'
-import './index.css'
+import { router } from "./app.routes.jsx";
+import { ProfileProvider } from "./features/dasboard/profile.context.jsx";
 
-
-
-
+import "./index.css";
 
 export default function App() {
-  
-  return (
-  <RouterProvider router={router}/>
-  )
+    return (
+            <ProfileProvider>
+                <RouterProvider router={router} />
+            </ProfileProvider>
+    );
 }
-

@@ -1,12 +1,13 @@
 const Profile = require("../model/profile.model.js");
 
+
 // @desc     Get a user's public profile by username (what the QR code resolves to)
 // @route   GET /api/public/:username
 // @access  Public (no auth)
 async function getPublicProfileController(req, res) {
     try {
         const { username } = req.params;
-
+        
         if (!username) {
             return res.status(400).json({
                 success: false,
@@ -17,7 +18,7 @@ async function getPublicProfileController(req, res) {
         const profile = await Profile.findOne({
             username: username.toLowerCase()
         });
-
+        
         if (!profile) {
             return res.status(404).json({
                 success: false,

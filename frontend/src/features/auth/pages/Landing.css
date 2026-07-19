@@ -2,7 +2,10 @@
     position: relative;
     min-height: 100vh;
     width: 100%;
-    background: #0a0510;
+    background:
+        radial-gradient(circle at top left, #29154c 0%, transparent 60%),
+        radial-gradient(circle at bottom right, #351532 0%, transparent 60%),
+        #0a0610;
     overflow: hidden;
     display: flex;
     align-items: center;
@@ -11,19 +14,6 @@
 }
 
 /* Radial purple glow behind the hero, fading to near-black at the edges */
-.glow {
-    position: absolute;
-    top: -10%;
-    left: 50%;
-    transform: translateX(-50%);
-    width: 900px;
-    height: 900px;
-    background:
-        radial-gradient(circle at top left, #29154c 0%, transparent 60%),
-        radial-gradient(circle at bottom right, #351532 0%, transparent 60%),
-        #0a0610;
-    pointer-events: none;
-}
 
 .content {
     position: relative;
@@ -31,4 +21,57 @@
     display: flex;
     flex-direction: column;
     align-items: center;
+    width: 100%;
+    max-width: 640px;
+    margin: 0 auto;
+}
+
+/* Desktop: switch .content from a stacked column to a 2-column CSS Grid.
+   Targets each component's existing class directly — no JSX changes needed. */
+@media (min-width: 900px) {
+    .page {
+        padding: 60px 48px;
+        overflow: hidden;
+    }
+
+    .content {
+        display: grid;
+        max-width: 1400px;
+        width: 100%;
+        grid-template-columns: 1fr 1fr;
+        grid-template-areas:
+            "badge  mockup"
+            "hero   mockup"
+            "social mockup";
+        align-items: center;
+        column-gap: 48px;
+        row-gap: 0;
+    }
+
+    .content > .badge {
+        grid-area: badge;
+        justify-self: start;
+    }
+
+    .content > .hero {
+        grid-area: hero;
+        align-items: flex-start;
+        text-align: left;
+        max-width: 100%;
+    }
+
+    .content > .hero .hero-desc {
+        text-align: left;
+    }
+
+    .content > .social-row {
+        grid-area: social;
+        justify-content: flex-start;
+    }
+
+    .content > .hero-mockup-scene {
+        grid-area: mockup;
+        justify-self: center;
+        max-width: 380px;
+    }
 }

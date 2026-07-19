@@ -8,7 +8,7 @@ const app = express();
 
 
 app.use(cors({
-  origin:"http://localhost:5173",
+  origin: process.env.CLIENT_URL,
   credentials:true,
   
 }))
@@ -17,7 +17,7 @@ app.use(morgan("dev"));
 
 
 app.use("/v1/api/profile/me",dasboardRouter);
-app.use("/v1/api/public",publicRouter);
+app.use("/",publicRouter);
 
 
 
