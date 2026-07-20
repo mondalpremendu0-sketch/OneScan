@@ -8,7 +8,7 @@ const AddLink = () => {
 
     const [title, settitle] = useState("");
     const [url, seturl] = useState("");
-    const [platform, setplatform] = useState();
+    const [platform, setplatform] = useState("instagram");
 
     async function handelAddLink(e) {
         e.preventDefault();
