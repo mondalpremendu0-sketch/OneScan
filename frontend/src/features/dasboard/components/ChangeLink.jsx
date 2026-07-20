@@ -29,7 +29,7 @@ const ChangeLink = () => {
         <div className="change-link-card">
             <h3>Change your link</h3>
             <div className="input-group">
-                <span className="prefix">one-scan-six.vercel.app</span>
+                <span className="prefix">one-scan-six.vercel.app/</span>
                 <input
                     onChange={e => setinputtedText(e.target.value)}
                     value={inputtedText}
