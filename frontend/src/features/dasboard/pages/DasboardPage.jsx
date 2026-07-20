@@ -11,13 +11,12 @@ import './Dasboard.css'
 export default function DashboardPage() {
 
   return (
-<h1>hello world</h1>
-    // <div className="app-container">
-    //   <DashboardHeader />
-    //   <ChangeLink />
-    //   <SharePage />
-    //   <AddLink />
-    //   <YourLinks />
-    // </div>
+    <div className="app-container">
+      <DashboardHeader />
+      <ChangeLink />
+      <SharePage />
+      <AddLink />
+      <YourLinks />
+    </div>
   );
 }
