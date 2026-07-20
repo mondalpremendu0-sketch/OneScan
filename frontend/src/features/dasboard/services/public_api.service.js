@@ -1,7 +1,7 @@
 import axios from "axios";
 
 const publicApi = axios.create({
-  baseURL: "import.meta.env.PUBLIC_URL",
+  baseURL: "https://onescan-u1de.onrender.com",
   withCredentials: true,
 });
 
