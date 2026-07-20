@@ -4,22 +4,22 @@ import Button from "./Button.jsx";
 import { useProfile } from "../hooks/useProfileContext.js";
 
 const AddLink = () => {
-    const { addSocial, profile,errors, loading } = useProfile();
-    
+    const { addSocial, profile, errors, loading } = useProfile();
+
     const [title, settitle] = useState("");
     const [url, seturl] = useState("");
     const [platform, setplatform] = useState();
-    
+
     async function handelAddLink(e) {
         e.preventDefault();
         if (!title || !url) return;
-       const success = await addSocial(title, url, platform);
-       
-       if(success){
-        settitle("");
-        seturl("");
-        setplatform("inatagram");
-       }
+        const success = await addSocial(title, url, platform);
+
+        if (success) {
+            settitle("");
+            seturl("");
+            setplatform("inatagram");
+        }
     }
 
     return (
@@ -39,13 +39,13 @@ const AddLink = () => {
                 value={url}
                 type="text"
                 className={`standard-input ${errors.addLink ? "input-error" : ""}`}
-                
+
                 placeholder="https://..."
             />
 
             <select
                 onChange={e => setplatform(e.target.value)}
-                value = {platform}
+                value={platform}
                 className="standard-select"
                 defaultValue="instagram"
             >
@@ -56,16 +56,16 @@ const AddLink = () => {
                 <option value="linkedin">Linkedin</option>
                 <option value="snapchat">Snapchat</option>
                 <option value="facebook">Facebook</option>
-                
+
                 <option value="custom">Custom</option>
             </select>
             {errors.addLink && <p className="field-error">{errors.addLink}</p>}
-            
-            <Button onClick={handelAddLink}>{
-              loading ? "Adding..":"Add Link"
-            }</Button>
+
+            <Button onClick={handelAddLink}>Add Link</Button>
         </div>
     );
 };
+
+
 
 export default AddLink;
