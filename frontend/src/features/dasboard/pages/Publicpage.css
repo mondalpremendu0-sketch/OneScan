@@ -42,7 +42,7 @@
     font-weight: 800;
     font-size: 26px;
     color: #ffffff;
-    margin-bottom: 6px;
+    margin-bottom: 25px;
 }
 
 .public-bio {
@@ -55,17 +55,16 @@
 .public-links {
     display: flex;
     flex-direction: column;
-    gap: 14px;
+    gap: 12px;
     width: 100%;
     box-sizing: border-box;
 }
 
 .public-link-btn {
-    margin-top: 15px;
-    margin-bottom: 15px;
+    
     display: flex;
     align-items: center;
-    gap: 8px;
+    gap: 18px;
     justify-content: center;
     width: 100%;
     box-sizing: border-box;
@@ -106,6 +105,6 @@
 
 .empty-link{
   font-size: 14px;
-  margin: 50px;
+  margin-top: 50px;
   color: #545353;
 }
