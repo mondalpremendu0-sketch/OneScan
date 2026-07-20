@@ -1,4 +1,5 @@
 const express = require("express");
+
 const morgan = require("morgan");
 const cors = require("cors");
 const dasboardRouter = require('./routes/dasboard.routes.js');
@@ -14,7 +15,6 @@ app.use(cors({
 }))
 app.use(express.json());
 app.use(morgan("dev"));
-
 
 app.use("/v1/api/profile/me",dasboardRouter);
 app.use("/",publicRouter);
