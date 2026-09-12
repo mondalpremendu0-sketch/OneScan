@@ -7,21 +7,29 @@
 [![JavaScript](https://img.shields.io/badge/JavaScript-64.9%25-yellow)]()
 [![CSS](https://img.shields.io/badge/CSS-34.3%25-blue)]()
 
+---
+
 ## 📋 Table of Contents
 
-- [About](#about)
-- [Features](#features)
-- [Tech Stack](#tech-stack)
-- [Project Structure](#project-structure)
-- [Getting Started](#getting-started)
+- [About](#-about)
+- [Features](#-features)
+- [Tech Stack](#️-tech-stack)
+- [Project Structure](#-project-structure)
+- [Getting Started](#-getting-started)
   - [Prerequisites](#prerequisites)
   - [Frontend Setup](#frontend-setup)
   - [Backend Setup](#backend-setup)
-- [Available Scripts](#available-scripts)
-- [API Documentation](#api-documentation)
-- [Project Architecture](#project-architecture)
-- [Contributing](#contributing)
-- [License](#license)
+- [Available Scripts](#-available-scripts)
+- [API Documentation](#-api-documentation)
+- [Project Architecture](#-project-architecture)
+- [Authentication Flow](#-authentication-flow)
+- [Component Structure](#-component-structure)
+- [Deployment](#-deployment)
+- [Troubleshooting](#-troubleshooting)
+- [Resources](#-resources)
+- [License](#-license)
+
+---
 
 ## 🎯 About
 
@@ -108,6 +116,8 @@ OneScan/
 └── README.md                          # Project documentation
 ```
 
+---
+
 ## 🚀 Getting Started
 
 ### Prerequisites
@@ -172,6 +182,8 @@ OneScan/
    ```
    The API will be available at `http://localhost:3000`
 
+---
+
 ## 📝 Available Scripts
 
 ### Frontend Scripts
@@ -203,6 +215,8 @@ npm start
 npm test
 ```
 
+---
+
 ## 📡 API Documentation
 
 ### Base URL
@@ -230,6 +244,8 @@ GET  /u/:username          - Get public profile by username
 - Origin: Configured from `CLIENT_URL` env variable
 - Credentials: Enabled
 - Methods: GET, POST, PUT, DELETE, OPTIONS
+
+---
 
 ## 🏗️ Project Architecture
 
@@ -259,7 +275,7 @@ App Component
     │   ├── Protected Component (Auth Check)
     │   ├── Dashboard Feature
     │   └── Public Profile Feature
-    └── LandieProvider (Context)
+    └── PublicProfileProvider (Context)
         └── Public Profile Data
 ```
 
@@ -291,6 +307,8 @@ App Setup (src/app.js)
     └── GET /u/:username - Get public profile
 ```
 
+---
+
 ## 🔐 Authentication Flow
 
 1. User lands on landing page (/)
@@ -301,6 +319,8 @@ App Setup (src/app.js)
 6. If authenticated → Dashboard access
 7. If not authenticated → Redirected to landing page
 8. User data is stored in ProfileProvider context
+
+---
 
 ## 🎨 Component Structure
 
@@ -318,6 +338,8 @@ App Setup (src/app.js)
 - **ProfileProvider** - Manages authenticated user data
 - **PublicProfileProvider** - Manages public profile data
 
+---
+
 ## 🚢 Deployment
 
 ### Frontend (Vercel)
@@ -329,6 +351,8 @@ App Setup (src/app.js)
 - Ready for deployment on any Node.js hosting (Heroku, Railway, Render, etc.)
 - Requires environment variables to be set
 - MongoDB Atlas recommended for database
+
+---
 
 ## 🐛 Troubleshooting
 
@@ -356,7 +380,9 @@ npm run dev -- --port 3001
 - Verify `CLIENT_URL` matches frontend URL
 - Check CORS configuration in `src/app.js`
 
-## 📚 Additional Resources
+---
+
+## 📚 Resources
 
 - [Clerk Documentation](https://clerk.com/docs)
 - [React Router Documentation](https://reactrouter.com)
@@ -364,9 +390,13 @@ npm run dev -- --port 3001
 - [MongoDB Mongoose Documentation](https://mongoosejs.com)
 - [Vite Documentation](https://vitejs.dev)
 
+---
+
 ## 📄 License
 
 This project is licensed under the ISC License.
+
+---
 
 ## 👨‍💻 Author
 
